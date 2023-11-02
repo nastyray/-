@@ -5,17 +5,13 @@ import com.ray.partnerCampus.common.BaseResponse;
 import com.ray.partnerCampus.common.ErrorCode;
 import com.ray.partnerCampus.common.ResultUtils;
 import com.ray.partnerCampus.exception.BusinessException;
-import com.ray.partnerCampus.model.domain.User;
 import com.ray.partnerCampus.model.domain.request.UserLoginRequest;
 import com.ray.partnerCampus.model.domain.request.UserRegisterRequest;
-import com.ray.partnerCampus.service.UserService;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
-import javax.xml.transform.Result;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
