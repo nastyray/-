@@ -1,5 +1,5 @@
 <template>
-  <user-card-list :user-list="userList" />
+  <user-card-list :user-list="userList" :loading="loading" />
   <van-empty v-if="!userList || userList.length < 1" description="搜索结果为空" />
 </template>
 
@@ -13,7 +13,7 @@ import UserCardList from "../components/UserCardList.vue";
 
 const route = useRoute();
 const {tags} = route.query;
-
+const loading = ref(true);
 const userList = ref([]);
 
 onMounted(async () => {
@@ -41,7 +41,7 @@ onMounted(async () => {
       }
     })
     userList.value = userListData;
-  }
+  }  loading.value = false;
 })
 
 
