@@ -7,10 +7,9 @@ import com.ray.usercenter.common.ErrorCode;
 import com.ray.usercenter.common.ResultUtils;
 import com.ray.usercenter.exception.BusinessException;
 import com.ray.usercenter.model.domain.User;
-import com.ray.usercenter.model.domain.request.UserLoginRequest;
-import com.ray.usercenter.model.domain.request.UserRegisterRequest;
+import com.ray.usercenter.model.request.UserLoginRequest;
+import com.ray.usercenter.model.request.UserRegisterRequest;
 import com.ray.usercenter.service.UserService;
-import io.swagger.models.auth.In;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -24,7 +23,6 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
-import static com.ray.usercenter.contant.UserContant.ADMIN_ROLE;
 import static com.ray.usercenter.contant.UserContant.USER_LOGIN_STATE;
 
 /**
