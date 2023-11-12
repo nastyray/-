@@ -6,13 +6,16 @@ import com.ray.usercenter.common.ErrorCode;
 import com.ray.usercenter.common.ResultUtils;
 import com.ray.usercenter.exception.BusinessException;
 import com.ray.usercenter.model.domain.Team;
+import com.ray.usercenter.model.domain.User;
 import com.ray.usercenter.model.dto.TeamQuery;
+import com.ray.usercenter.model.request.TeamAddRequest;
 import com.ray.usercenter.service.TeamService;
 import com.ray.usercenter.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.web.bind.annotation.*;
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 
@@ -35,21 +38,23 @@ public class TeamController {
     @Resource
     private TeamService teamService;
 
+
     /**
      * 创建队伍
-     * @param team
+     * @param teamAddRequest
+     * @param request
      * @return
      */
     @PostMapping("/add")
-    public BaseResponse<Long> addTeam(@RequestBody Team team){
-        if (team == null){
+    public BaseResponse<Long> addTeam(@RequestBody TeamAddRequest teamAddRequest, HttpServletRequest request){
+        if (teamAddRequest == null){
             throw new BusinessException(ErrorCode.PARAMS_ERROR);
         }
-        boolean save = teamService.save(team);
-        if (!save){
-            throw new BusinessException(ErrorCode.SYSTEM_ERROR);
-        }
-        return ResultUtils.success(team.getId());
+        User loginUser = userService.getLoginUser(request);
+        Team team = new Team();
+        BeanUtils.copyProperties(teamAddRequest,team);
+        long teamId = teamService.addTeam(team, loginUser);
+        return ResultUtils.success(teamId);
     }
 
     /**
@@ -114,7 +119,7 @@ public class TeamController {
             throw new BusinessException(ErrorCode.PARAMS_ERROR);
         }
         Team team = new Team();
-        BeanUtils.copyProperties(team,teamQuery);
+        BeanUtils.copyProperties(teamQuery,team);
         QueryWrapper<Team> queryWrapper = new QueryWrapper<>(team);
         List<Team> teamList = teamService.list(queryWrapper);
         return ResultUtils.success(teamList);
@@ -125,13 +130,13 @@ public class TeamController {
      * @param teamQuery
      * @return
      */
-    @GetMapping("/list")
+    @GetMapping("/list/page")
     public BaseResponse<Page<Team>> listTeamsByPage(TeamQuery teamQuery){
         if (teamQuery == null){
             throw new BusinessException(ErrorCode.PARAMS_ERROR);
         }
         Team team = new Team();
-        BeanUtils.copyProperties(team,teamQuery);
+        BeanUtils.copyProperties(teamQuery,team);
         Page<Team> page = new Page<>(teamQuery.getPageNum(), teamQuery.getPageSize());
         QueryWrapper<Team> queryWrapper = new QueryWrapper<>(team);
         Page<Team> resultPage = teamService.page(page,queryWrapper);
