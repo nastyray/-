@@ -3,6 +3,10 @@ package com.ray.usercenter.service;
 import com.ray.usercenter.model.domain.Team;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.ray.usercenter.model.domain.User;
+import com.ray.usercenter.model.dto.TeamQuery;
+import com.ray.usercenter.model.vo.TeamUserVO;
+
+import java.util.List;
 
 /**
 * @author lil ray
@@ -20,4 +24,11 @@ public interface TeamService extends IService<Team> {
      */
     long addTeam(Team team, User loginUser);
 
+    /**
+     * 搜索队伍
+     * @param teamQuery
+     * @param
+     * @return
+     */
+    List<TeamUserVO> listTeams(TeamQuery teamQuery,boolean isAdmin);
 }

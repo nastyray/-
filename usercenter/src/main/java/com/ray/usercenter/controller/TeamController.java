@@ -9,6 +9,7 @@ import com.ray.usercenter.model.domain.Team;
 import com.ray.usercenter.model.domain.User;
 import com.ray.usercenter.model.dto.TeamQuery;
 import com.ray.usercenter.model.request.TeamAddRequest;
+import com.ray.usercenter.model.vo.TeamUserVO;
 import com.ray.usercenter.service.TeamService;
 import com.ray.usercenter.service.UserService;
 import lombok.extern.slf4j.Slf4j;
@@ -114,14 +115,12 @@ public class TeamController {
      * @return
      */
     @GetMapping("/list")
-    public BaseResponse<List<Team>> listTeams(TeamQuery teamQuery){
+    public BaseResponse<List<TeamUserVO>> listTeams(TeamQuery teamQuery,HttpServletRequest request){
         if (teamQuery == null){
             throw new BusinessException(ErrorCode.PARAMS_ERROR);
         }
-        Team team = new Team();
-        BeanUtils.copyProperties(teamQuery,team);
-        QueryWrapper<Team> queryWrapper = new QueryWrapper<>(team);
-        List<Team> teamList = teamService.list(queryWrapper);
+        boolean isAdmin = userService.isAdmin(request);
+        List<TeamUserVO> teamList = teamService.listTeams(teamQuery,isAdmin);
         return ResultUtils.success(teamList);
     }
 
