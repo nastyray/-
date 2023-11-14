@@ -61,22 +61,6 @@ public class TeamController {
         return ResultUtils.success(teamId);
     }
 
-    /**
-     * 删除队伍
-     * @param id
-     * @return
-     */
-    @DeleteMapping("/delete")
-    public BaseResponse<Boolean> deleteTeam(@RequestBody long id){
-        if (id <= 0){
-            throw new BusinessException(ErrorCode.PARAMS_ERROR);
-        }
-        boolean result = teamService.removeById(id);
-        if (!result){
-            throw new BusinessException(ErrorCode.SYSTEM_ERROR);
-        }
-        return ResultUtils.success(true);
-    }
 
     /**
      * 更新队伍信息
@@ -164,7 +148,7 @@ public class TeamController {
     }
 
     /**
-     * 用户推出队伍
+     * 用户退出队伍
      * @param teamQuitRequest
      * @param request
      * @return
@@ -178,6 +162,25 @@ public class TeamController {
         boolean result = teamService.quitTeam(teamQuitRequest, loginUser);
         return ResultUtils.success(result);
     }
+
+    /**
+     * 删除队伍
+     * @param id
+     * @return
+     */
+    @PostMapping("/delete")
+    public BaseResponse<Boolean> deleteTeam(@RequestBody long id, HttpServletRequest request) {
+        if (id <= 0){
+            throw new BusinessException(ErrorCode.NULL_ERROR);
+        }
+        User loginUser = userService.getLoginUser(request);
+        boolean result = teamService.deleteTeam(id, loginUser);
+        if (!result) {
+            throw new BusinessException(ErrorCode.SYSTEM_ERROR, "删除失败");
+        }
+        return ResultUtils.success(true);
+    }
+
 
 
 
