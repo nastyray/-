@@ -4,6 +4,8 @@ import com.ray.usercenter.model.domain.Team;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.ray.usercenter.model.domain.User;
 import com.ray.usercenter.model.dto.TeamQuery;
+import com.ray.usercenter.model.request.TeamJoinRequest;
+import com.ray.usercenter.model.request.TeamUpdateRequest;
 import com.ray.usercenter.model.vo.TeamUserVO;
 
 import java.util.List;
@@ -31,4 +33,20 @@ public interface TeamService extends IService<Team> {
      * @return
      */
     List<TeamUserVO> listTeams(TeamQuery teamQuery,boolean isAdmin);
+
+    /**
+     * 更新队伍信息
+     * @param teamUpdateRequest
+     * @return
+     */
+
+    boolean updateTeam(TeamUpdateRequest teamUpdateRequest, User loginUser);
+
+    /**
+     * 加入队伍
+     * @param teamJoinRequest
+     * @param loginUser
+     * @return
+     */
+    boolean joinTeam(TeamJoinRequest teamJoinRequest, User loginUser);
 }
