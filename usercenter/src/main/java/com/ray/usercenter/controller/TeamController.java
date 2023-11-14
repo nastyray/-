@@ -10,6 +10,7 @@ import com.ray.usercenter.model.domain.User;
 import com.ray.usercenter.model.dto.TeamQuery;
 import com.ray.usercenter.model.request.TeamAddRequest;
 import com.ray.usercenter.model.request.TeamJoinRequest;
+import com.ray.usercenter.model.request.TeamQuitRequest;
 import com.ray.usercenter.model.request.TeamUpdateRequest;
 import com.ray.usercenter.model.vo.TeamUserVO;
 import com.ray.usercenter.service.TeamService;
@@ -162,6 +163,21 @@ public class TeamController {
         return ResultUtils.success(result);
     }
 
+    /**
+     * 用户推出队伍
+     * @param teamQuitRequest
+     * @param request
+     * @return
+     */
+    @PostMapping("/quit")
+    public BaseResponse<Boolean> quitTeam(@RequestBody TeamQuitRequest teamQuitRequest, HttpServletRequest request) {
+        if (teamQuitRequest == null) {
+            throw new BusinessException(ErrorCode.PARAMS_ERROR);
+        }
+        User loginUser = userService.getLoginUser(request);
+        boolean result = teamService.quitTeam(teamQuitRequest, loginUser);
+        return ResultUtils.success(result);
+    }
 
 
 

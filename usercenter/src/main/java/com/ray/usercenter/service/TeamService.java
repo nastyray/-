@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import com.ray.usercenter.model.domain.User;
 import com.ray.usercenter.model.dto.TeamQuery;
 import com.ray.usercenter.model.request.TeamJoinRequest;
+import com.ray.usercenter.model.request.TeamQuitRequest;
 import com.ray.usercenter.model.request.TeamUpdateRequest;
 import com.ray.usercenter.model.vo.TeamUserVO;
 
@@ -49,4 +50,12 @@ public interface TeamService extends IService<Team> {
      * @return
      */
     boolean joinTeam(TeamJoinRequest teamJoinRequest, User loginUser);
+
+    /**
+     * 退出队伍
+     * @param teamQuitRequest
+     * @param loginUser
+     * @return
+     */
+    boolean quitTeam(TeamQuitRequest teamQuitRequest, User loginUser);
 }
