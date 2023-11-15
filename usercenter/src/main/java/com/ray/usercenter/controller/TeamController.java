@@ -2,6 +2,7 @@ package com.ray.usercenter.controller;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.ray.usercenter.common.BaseResponse;
+import com.ray.usercenter.common.DeleteRequest;
 import com.ray.usercenter.common.ErrorCode;
 import com.ray.usercenter.common.ResultUtils;
 import com.ray.usercenter.exception.BusinessException;
@@ -172,14 +173,15 @@ public class TeamController {
 
     /**
      * 删除队伍
-     * @param id
+     * @param
      * @return
      */
     @PostMapping("/delete")
-    public BaseResponse<Boolean> deleteTeam(@RequestBody long id, HttpServletRequest request) {
-        if (id <= 0){
+    public BaseResponse<Boolean> deleteTeam(@RequestBody DeleteRequest deleteRequest, HttpServletRequest request) {
+        if (deleteRequest == null || deleteRequest.getId() <= 0){
             throw new BusinessException(ErrorCode.NULL_ERROR);
         }
+        long id = deleteRequest.getId();
         User loginUser = userService.getLoginUser(request);
         boolean result = teamService.deleteTeam(id, loginUser);
         if (!result) {
