@@ -42,6 +42,7 @@ public interface UserService extends IService<User> {
      */
     User getsafetyUser(User originUser);
 
+
     /**
      * 用户注销
      * @param request
@@ -84,4 +85,12 @@ public interface UserService extends IService<User> {
      * @return
      */
     boolean isAdmin(User loginUser);
+
+    /**
+     * 推荐匹配
+     * @param num
+     * @param user
+     * @return
+     */
+    List<User> matchUsers(long num, User user);
 }
